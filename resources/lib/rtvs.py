@@ -270,7 +270,7 @@ class RtvsContentProvider(ContentProvider):
     def resolve(self, item, captcha_cb=None, select_cb=None):
         result = []
         item = item.copy()
-        if 'live' in item['url']:
+        if item['url'].startswith('live.'):
             channel_id = item['url'].split('.')[1]
             data = util.request("http://www.rtvs.sk/json/live5.json?c=%s&b=mozilla&p=linux&v=47&f=1&d=1"%(channel_id))
             videodata = util.json.loads(data)[0]
