@@ -35,6 +35,9 @@ from datetime import date
 import util
 from provider import ContentProvider
 
+import json
+import xbmc
+
 START_TOP = '<h2 class="nadpis">Najsledovanejšie</h2>'
 END_TOP = '<h2 class="nadpis">Najnovšie</h2>'
 TOP_ITER_RE = '<li(.+?)<a title=\"(?P<title>[^"]+)\"(.+?)href=\"(?P<url>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<p class=\"day\">(?P<date>[^<]+)<\/p>(.+?)<span class=\"programmeTime\">(?P<time>[^<]+)(.+?)<\/li>'
@@ -291,13 +294,30 @@ class RtvsContentProvider(ContentProvider):
                 url = "%s/%s" % (v['baseUrl'], v['url'].replace('.f4m', '.m3u8'))
                 #http://cdn.srv.rtvs.sk:1935/vod/_definst_//smil:fZGAj3tv0QN4WtoHawjZnKy35t7dUaoB.smil/manifest.m3u8
                 if '/smil:' in url:
-                    for stream in get_streams_from_manifest_url(url):
-                        item = self.video_item()
-                        item['title'] = v['details']['name']
-                        item['surl'] = item['title']
-                        item['url'] = stream['url']
-                        item['quality'] = stream['quality']
-                        result.append(item)
+                    version = xbmc.getInfoLabel('System.BuildVersion').split(' ')[0]
+                    if (float(version) >= 18):
+                        #chceck if is inputstream.adaptive present
+                        payload = {'jsonrpc': '2.0','id': 1,'method': 'Addons.GetAddonDetails','params': {'addonid': 'inputstream.adaptive','properties': ['enabled']}}
+                        response = xbmc.executeJSONRPC(json.dumps(payload))
+                        data = json.loads(response)
+                        if 'error' not in data.keys():
+                            #return playlist with adaptive flag
+                            item = self.video_item()
+                            item['title'] = v['details']['name']
+                            item['surl'] = item['title']
+                            item['quality'] = 'adaptive'
+                            item['url'] = url
+                            result.append(item)
+                        else:
+                            xbmcgui.Dialog().ok('TODO', 'mal by si si installnut inputstream.adaptive')
+                    if not result:
+                        for stream in get_streams_from_manifest_url(url):
+                            item = self.video_item()
+                            item['title'] = v['details']['name']
+                            item['surl'] = item['title']
+                            item['url'] = stream['url']
+                            item['quality'] = stream['quality']
+                            result.append(item)
                 else:
                     item = self.video_item()
                     item['title'] = v['details']['name']

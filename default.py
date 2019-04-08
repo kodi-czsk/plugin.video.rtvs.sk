@@ -55,6 +55,9 @@ class RtvsXBMCContentProvider(xbmcprovider.XBMCMultiResolverContentProvider):
                     stream['url'] += '|%s=%s' % (header, stream['headers'][header])
             print 'Sending %s to player' % stream['url']
             li = xbmcgui.ListItem(path=stream['url'], iconImage='DefaulVideo.png')
+            if stream['quality'] == 'adaptive':
+                li.setProperty('inputstreamaddon','inputstream.adaptive')
+                li.setProperty('inputstream.adaptive.manifest_type','hls')
             xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, li)
             xbmcutil.load_subtitles(stream['subs'])
 
@@ -62,6 +65,9 @@ class RtvsXBMCContentProvider(xbmcprovider.XBMCMultiResolverContentProvider):
         def select_cb(resolved):
             stream_parts = []
             stream_parts_dict = {}
+
+            if len(resolved) == 1 and resolved[0]['quality'] == 'adaptive':
+                return resolved[0]
 
             for stream in resolved:
                 if stream['surl'] not in stream_parts_dict:
