@@ -94,7 +94,12 @@ def is_kodi_leia():
         payload = {'jsonrpc': '2.0','id': 1,'method': 'Addons.GetAddonDetails','params': {'addonid': 'inputstream.adaptive','properties': ['enabled']}}
         response = xbmc.executeJSONRPC(json.dumps(payload))
         data = json.loads(response)
-        if 'error' not in data.keys():
+        print(data)
+        if ('error' not in data.keys() and 
+                'result' in data.keys() and 
+                'addon' in data['result'].keys() and 
+                'enabled' in data['result']['addon'].keys() and 
+                data['result']['addon']['enabled']):
             return True
         else:
             scriptid = 'plugin.video.rtvs.sk'
