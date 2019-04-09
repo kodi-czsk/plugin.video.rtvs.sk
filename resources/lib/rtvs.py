@@ -36,7 +36,7 @@ import util
 from provider import ContentProvider
 
 import json
-import xbmc
+import xbmc, xbmcaddon, xbmcgui
 
 START_TOP = '<h2 class="nadpis">Najsledovanejšie</h2>'
 END_TOP = '<h2 class="nadpis">Najnovšie</h2>'
@@ -97,7 +97,9 @@ def is_kodi_leia():
         if 'error' not in data.keys():
             return True
         else:
-            xbmcgui.Dialog().ok('TODO', 'mal by si si installnut inputstream.adaptive')
+            scriptid = 'plugin.video.rtvs.sk'
+            addon = xbmcaddon.Addon(id=scriptid)
+            xbmcgui.Dialog().ok(addon.getLocalizedString(31010), addon.getLocalizedString(31011), addon.getLocalizedString(31012))
     return False
 
 class RtvsContentProvider(ContentProvider):

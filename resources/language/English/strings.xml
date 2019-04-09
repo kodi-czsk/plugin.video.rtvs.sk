@@ -28,4 +28,8 @@
 	<string id="30061">Most watched</string>
 	<string id="30070">Related videos</string>
 	<string id="31000">Usage of plugin is tracked whenever you play or download video.</string>
+
+	<string id="31010">Kodi 18 Leia</string>
+	<string id="31011">You are using Leia, which have problems with video stuttering from archive.</string>
+	<string id="31012">Please install InputStream Adaptive plugin from official repo and configure it.</string>
 </strings>

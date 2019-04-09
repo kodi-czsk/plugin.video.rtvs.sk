@@ -1,3 +1,8 @@
+[B]1.8.0:[/B]
+- Kodi 18 Leia update
+- streams from archive was stuttering due ffmpeg bug, solved with InputStream Adaptive
+[B]1.0.8:[/B]
+- ???
 [B]1.0.7:[/B]
 - added all live streams
 - default quality option is set back to always ask
