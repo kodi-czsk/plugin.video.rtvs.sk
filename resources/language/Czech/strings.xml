@@ -30,5 +30,6 @@
 
 	<string id="31010">Kodi 18 Leia</string>
 	<string id="31011">Používáte Leiu, která má problém se skákáním videa z archivu.</string>
-	<string id="31012">Prosím, nainstalujte si InputStream Adaptive plugin z oficiálního repozitáře a nastavte si ho.</string>
+	<string id="31012">Prosím, nainstalujte / aktivujte si InputStream Adaptive plugin z oficiálního repozitáře a nastavte si ho.</string>
+	<string id="31013">Po instalaci / aktivaci je nutný restart Kodi.</string>
 </strings>

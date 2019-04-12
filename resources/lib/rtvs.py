@@ -104,7 +104,7 @@ def is_kodi_leia():
         else:
             scriptid = 'plugin.video.rtvs.sk'
             addon = xbmcaddon.Addon(id=scriptid)
-            xbmcgui.Dialog().ok(addon.getLocalizedString(31010), addon.getLocalizedString(31011), addon.getLocalizedString(31012))
+            xbmcgui.Dialog().ok(addon.getLocalizedString(31010), addon.getLocalizedString(31011), addon.getLocalizedString(31012), addon.getLocalizedString(31013))
     return False
 
 class RtvsContentProvider(ContentProvider):

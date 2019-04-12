@@ -31,5 +31,6 @@
 
 	<string id="31010">Kodi 18 Leia</string>
 	<string id="31011">You are using Leia, which have problems with video stuttering from archive.</string>
-	<string id="31012">Please install InputStream Adaptive plugin from official repo and configure it.</string>
+	<string id="31012">Please install / activate InputStream Adaptive plugin from official repo and configure it.</string>
+	<string id="31013">Kodi restart is required after installation / activation.</string>
 </strings>
