@@ -27,4 +27,9 @@
 	<string id="30061">Najsledovanejšie</string>
 	<string id="30070">Podobné videá</string>
 	<string id="31000">Dáta o použití sú zasláné len v okamžiku, keď spustíte prehrávánie alebo sťahovanie videa doplnkom.</string>
+
+	<string id="31010">Kodi 18 Leia</string>
+	<string id="31011">Používate Leiu, ktorá má problém so skákaním videa z archívu.</string>
+	<string id="31012">Prosím, nainštalujte / aktivujte si InputStream Adaptive plugin z oficiálneho repozitára a nastavte si ho.</string>
+	<string id="31013">Po inštalácii / aktivácii je potrebný reštart Kodi.</string>
 </strings>

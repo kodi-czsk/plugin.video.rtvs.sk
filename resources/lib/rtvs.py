@@ -35,6 +35,9 @@ from datetime import date
 import util
 from provider import ContentProvider
 
+import json
+import xbmc, xbmcaddon, xbmcgui
+
 START_TOP = '<h2 class="nadpis">Najsledovanejšie</h2>'
 END_TOP = '<h2 class="nadpis">Najnovšie</h2>'
 TOP_ITER_RE = '<li(.+?)<a title=\"(?P<title>[^"]+)\"(.+?)href=\"(?P<url>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<p class=\"day\">(?P<date>[^<]+)<\/p>(.+?)<span class=\"programmeTime\">(?P<time>[^<]+)(.+?)<\/li>'
@@ -84,6 +87,25 @@ def get_streams_from_manifest_url(url):
     result.sort(key=lambda x:x['bandwidth'], reverse=True)
     return result
 
+def is_kodi_leia():
+    version = xbmc.getInfoLabel('System.BuildVersion').split(' ')[0]
+    if (float(version) >= 18):
+        #chceck if is inputstream.adaptive present
+        payload = {'jsonrpc': '2.0','id': 1,'method': 'Addons.GetAddonDetails','params': {'addonid': 'inputstream.adaptive','properties': ['enabled']}}
+        response = xbmc.executeJSONRPC(json.dumps(payload))
+        data = json.loads(response)
+        print(data)
+        if ('error' not in data.keys() and 
+                'result' in data.keys() and 
+                'addon' in data['result'].keys() and 
+                'enabled' in data['result']['addon'].keys() and 
+                data['result']['addon']['enabled']):
+            return True
+        else:
+            scriptid = 'plugin.video.rtvs.sk'
+            addon = xbmcaddon.Addon(id=scriptid)
+            xbmcgui.Dialog().ok(addon.getLocalizedString(31010), addon.getLocalizedString(31011), addon.getLocalizedString(31012), addon.getLocalizedString(31013))
+    return False
 
 class RtvsContentProvider(ContentProvider):
 
@@ -276,13 +298,23 @@ class RtvsContentProvider(ContentProvider):
             channel_id = item['url'].split('.')[1]
             data = util.request("http://www.rtvs.sk/json/live5.json?c=%s&b=mozilla&p=linux&v=47&f=1&d=1"%(channel_id))
             videodata = util.json.loads(data)[0]
-            for stream in get_streams_from_manifest_url(videodata['sources'][0]['file']):
+            if is_kodi_leia():
+                #return playlist with adaptive flag
                 item = self.video_item()
                 item['title'] = videodata.get('title','')
-                item['url'] = stream['url']
-                item['quality'] = stream['quality']
+                item['url'] = videodata['sources'][0]['file']
+                item['quality'] = 'adaptive'
                 item['img'] = videodata.get('image','')
                 result.append(item)
+            else:
+                #process m3u8 playlist
+                for stream in get_streams_from_manifest_url(videodata['sources'][0]['file']):
+                    item = self.video_item()
+                    item['title'] = videodata.get('title','')
+                    item['url'] = stream['url']
+                    item['quality'] = stream['quality']
+                    item['img'] = videodata.get('image','')
+                    result.append(item)
         else:
             video_id = item['url'].split('/')[-1]
             self.info("<resolve> videoid: %s" % video_id)
@@ -291,13 +323,23 @@ class RtvsContentProvider(ContentProvider):
                 url = "%s/%s" % (v['baseUrl'], v['url'].replace('.f4m', '.m3u8'))
                 #http://cdn.srv.rtvs.sk:1935/vod/_definst_//smil:fZGAj3tv0QN4WtoHawjZnKy35t7dUaoB.smil/manifest.m3u8
                 if '/smil:' in url:
-                    for stream in get_streams_from_manifest_url(url):
+                    if is_kodi_leia():
+                        #return playlist with adaptive flag
                         item = self.video_item()
                         item['title'] = v['details']['name']
                         item['surl'] = item['title']
-                        item['url'] = stream['url']
-                        item['quality'] = stream['quality']
+                        item['quality'] = 'adaptive'
+                        item['url'] = url
                         result.append(item)
+                    else:
+                        #process m3u8 playlist
+                        for stream in get_streams_from_manifest_url(url):
+                            item = self.video_item()
+                            item['title'] = v['details']['name']
+                            item['surl'] = item['title']
+                            item['url'] = stream['url']
+                            item['quality'] = stream['quality']
+                            result.append(item)
                 else:
                     item = self.video_item()
                     item['title'] = v['details']['name']
