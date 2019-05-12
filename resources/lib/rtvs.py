@@ -88,7 +88,7 @@ def get_streams_from_manifest_url(url):
     return result
 
 def is_kodi_leia():
-    version = xbmc.getInfoLabel('System.BuildVersion').split(' ')[0]
+    version = re.split("[, \-!?:]+", xbmc.getInfoLabel('System.BuildVersion'))[0]
     if (float(version) >= 18):
         #chceck if is inputstream.adaptive present
         payload = {'jsonrpc': '2.0','id': 1,'method': 'Addons.GetAddonDetails','params': {'addonid': 'inputstream.adaptive','properties': ['enabled']}}
