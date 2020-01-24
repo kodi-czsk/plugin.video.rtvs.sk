@@ -50,7 +50,7 @@ START_AZ = '<h2 class="az"'
 END_AZ = START_TOP
 AZ_ITER_RE = TOP_ITER_RE
 
-START_DATE = '<div class="row verticalLine tvarchivDate">'
+START_DATE = '<div class="row-fluid verticalLine verticalLine--tripple tvarchivDate">'
 END_DATE = START_TOP
 DATE_ITER_RE = '<div class=\"media\">\s*<a href=\"(?P<url>[^\"]+)\"[^<]+>\s*<img src=\"(?P<img>[^\"]+)\".+?</a>\s*<div class=\"media-body\">.+?<span class=\"programmeTime\">(?P<time>[^\<]+)<\/span>.+?<a class=\"link\".+?title=\"(?P<title>[^\"]+)\">.+?<\/div>'
 
