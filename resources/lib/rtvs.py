@@ -57,7 +57,7 @@ DATE_ITER_RE = '<div class=\"media\">\s*<a href=\"(?P<url>[^\"]+)\"[^<]+>\s*<img
 START_LISTING = "<div class='calendar modal-body'>"
 END_LISTING = '</table>'
 LISTING_PAGER_RE = "<a class=\'prev calendarRoller' href=\'(?P<prevurl>[^\']+)\'.+?<a class=\'next calendarRoller\' href=\'(?P<nexturl>[^\']+)"
-LISTING_DATE_RE = '<div class=\'calendar-header\'>\s+<h6>(?P<date>[^<]+)</h6>'
+LISTING_DATE_RE = '<div class=\'calendar-header\'>\s+.*?<h6>(?P<date>[^<]+)</h6>'
 LISTING_ITER_RE = '<td class=(\"day\"|\"active day\")>\s+<a href=[\'\"](?P<url>[^\"^\']+)[\"\']>(?P<daynum>[\d]+)</a>\s+</td>'
 
 EPISODE_START = '<div class="span9">'
