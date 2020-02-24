@@ -174,10 +174,13 @@ class RtvsContentProvider(ContentProvider):
         item['title'] = "STV 2"
         result.append(item)
         item = self.video_item("live.4")
-        item['title'] = "STV Online"
+        item['title'] = "STV 3"
         result.append(item)
         item = self.video_item("live.5")
         item['title'] = "STV NRSR"
+        result.append(item)
+        item = self.video_item("live.6")
+        item['title'] = "STV Online"
         result.append(item)
         return result
 
