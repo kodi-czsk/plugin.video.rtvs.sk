@@ -173,14 +173,14 @@ class RtvsContentProvider(ContentProvider):
         item = self.video_item("live.2")
         item['title'] = "STV 2"
         result.append(item)
-        item = self.video_item("live.4")
+        item = self.video_item("live.3")
         item['title'] = "STV 3"
+        result.append(item)
+        item = self.video_item("live.4")
+        item['title'] = "STV Online"
         result.append(item)
         item = self.video_item("live.5")
         item['title'] = "STV NRSR"
-        result.append(item)
-        item = self.video_item("live.6")
-        item['title'] = "STV Online"
         result.append(item)
         return result
 
@@ -299,19 +299,19 @@ class RtvsContentProvider(ContentProvider):
         item = item.copy()
         if item['url'].startswith('live.'):
             channel_id = item['url'].split('.')[1]
-            data = util.request("http://www.rtvs.sk/json/live5.json?c=%s&b=mozilla&p=linux&v=47&f=1&d=1"%(channel_id))
-            videodata = util.json.loads(data)[0]
+            data = util.request("http://www.rtvs.sk/json/live5f.json?c=%s&b=mozilla&p=linux&v=47&f=1&d=1"%(channel_id))
+            videodata = util.json.loads(data)['clip']
             if is_kodi_leia():
                 #return playlist with adaptive flag
                 item = self.video_item()
                 item['title'] = videodata.get('title','')
-                item['url'] = videodata['sources'][0]['file']
+                item['url'] = videodata['sources'][0]['src']
                 item['quality'] = 'adaptive'
                 item['img'] = videodata.get('image','')
                 result.append(item)
             else:
                 #process m3u8 playlist
-                for stream in get_streams_from_manifest_url(videodata['sources'][0]['file']):
+                for stream in get_streams_from_manifest_url(videodata['sources'][0]['src']):
                     item = self.video_item()
                     item['title'] = videodata.get('title','')
                     item['url'] = stream['url']
