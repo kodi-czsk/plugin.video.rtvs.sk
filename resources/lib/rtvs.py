@@ -38,21 +38,13 @@ from provider import ContentProvider
 import json
 import xbmc, xbmcaddon, xbmcgui
 
-START_TOP = '<h2 class="nadpis">Najsledovanejšie</h2>'
-END_TOP = '<h2 class="nadpis">Najnovšie</h2>'
-TOP_ITER_RE = '<li(.+?)<a title=\"(?P<title>[^"]+)\"(.+?)href=\"(?P<url>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<p class=\"day\">(?P<date>[^<]+)<\/p>(.+?)<span class=\"programmeTime\">(?P<time>[^<]+)(.+?)<\/li>'
+START_AZ = '<div class=\"row tv__archive tv__archive--list\">'
+END_AZ = '<div class="footer'
+AZ_ITER_RE = '<a title=\"(?P<title>[^"]+)\"(.+?)href=\"(?P<url>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<span class=\"date\">(?P<date>[^<]+)<\/span>(.+?)<span class=\"program time--start\">(?P<time>[^<]+)'
 
-START_NEWEST = END_TOP
-END_NEWEST = '<div class="footer'
-NEWEST_ITER_RE = '<li(.+?)<a href=\"(?P<url>[^"]+)\"(.+?)title=\"(?P<title>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<p class=\"day\">(?P<date>[^<]+)<\/p>(.+?)<span class=\"programmeTime\">(?P<time>[^<]+)(.+?)<\/li>'
-
-START_AZ = '<h2 class="az"'
-END_AZ = START_TOP
-AZ_ITER_RE = TOP_ITER_RE
-
-START_DATE = '<div class="row-fluid verticalLine verticalLine--tripple tvarchivDate">'
-END_DATE = START_TOP
-DATE_ITER_RE = '<div class=\"media\">\s*<a href=\"(?P<url>[^\"]+)\"[^<]+>\s*<img src=\"(?P<img>[^\"]+)\".+?</a>\s*<div class=\"media-body\">.+?<span class=\"programmeTime\">(?P<time>[^\<]+)<\/span>.+?<a class=\"link\".+?title=\"(?P<title>[^\"]+)\">.+?<\/div>'
+START_DATE = '<div class=\"row tv__archive tv__archive--date\">'
+END_DATE = END_AZ
+DATE_ITER_RE = '<div class=\"media\">\s*<a href=\"(?P<url>[^\"]+)\"[^<]+>\s*<img src=\"(?P<img>[^\"]+)\".+?<\/a>\s*<div class=\"media__body\">.+?<div class=\"program time--start\">(?P<time>[^\<]+)<span>.+?<a class=\"link\".+?title=\"(?P<title>[^\"]+)\">.+?<\/div>'
 
 START_LISTING = "<div class='calendar modal-body'>"
 END_LISTING = '</table>'
@@ -60,8 +52,6 @@ LISTING_PAGER_RE = "<a class=\'prev calendarRoller' href=\'(?P<prevurl>[^\']+)\'
 LISTING_DATE_RE = '<div class=\'calendar-header\'>\s+.*?<h6>(?P<date>[^<]+)</h6>'
 LISTING_ITER_RE = '<td class=(\"day\"|\"active day\")>\s+<a href=[\'\"](?P<url>[^\"^\']+)[\"\']>(?P<daynum>[\d]+)</a>\s+</td>'
 
-EPISODE_START = '<div class="span9">'
-EPISODE_END = '<div class="footer'
 EPISODE_RE = '<div class=\"article-header\">\s+?<h2>(?P<title>[^<]+)</h2>.+?(<div class=\"span6">\s+?<div[^>]+?>(?P<plot>[^<]+)</div>)?'
 
 def to_unicode(text, encoding='utf-8'):
