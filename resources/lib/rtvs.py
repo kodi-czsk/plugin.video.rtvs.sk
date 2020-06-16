@@ -42,7 +42,7 @@ START_AZ = '<div class=\"row tv__archive tv__archive--list\">'
 END_AZ = '<div class="footer'
 AZ_ITER_RE = '<a title=\"(?P<title>[^"]+)\"(.+?)href=\"(?P<url>[^"]+)\"(.+?)<img src=\"(?P<img>[^"]+)\"(.+?)<span class=\"date\">(?P<date>[^<]+)<\/span>(.+?)<span class=\"program time--start\">(?P<time>[^<]+)'
 
-START_DATE = '<div class=\"row tv__archive tv__archive--date\">'
+START_DATE = '<div class=\"row tv__archive tv__archive--date\" data-js-tabs>'
 END_DATE = END_AZ
 DATE_ITER_RE = '<div class=\"media\">\s*<a href=\"(?P<url>[^\"]+)\"[^<]+>\s*<img src=\"(?P<img>[^\"]+)\".+?<\/a>\s*<div class=\"media__body\">.+?<div class=\"program time--start\">(?P<time>[^\<]+)<span>.+?<a class=\"link\".+?title=\"(?P<title>[^\"]+)\">.+?<\/div>'
 
