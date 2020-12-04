@@ -296,6 +296,7 @@ class RtvsContentProvider(ContentProvider):
                 item = self.video_item()
                 item['title'] = videodata.get('title','')
                 item['url'] = videodata['sources'][0]['src']
+                item['url'] = ''.join(item['url'].split()) # remove whitespace \n from URL
                 item['quality'] = 'adaptive'
                 item['img'] = videodata.get('image','')
                 result.append(item)
@@ -304,6 +305,7 @@ class RtvsContentProvider(ContentProvider):
                 for stream in get_streams_from_manifest_url(videodata['sources'][0]['src']):
                     item = self.video_item()
                     item['title'] = videodata.get('title','')
+                    item['url'] = ''.join(item['url'].split())
                     item['url'] = stream['url']
                     item['quality'] = stream['quality']
                     item['img'] = videodata.get('image','')
